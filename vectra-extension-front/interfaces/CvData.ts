@@ -5,8 +5,7 @@ export interface CVData {
   linkedin: string;
   skills: {
     name: string;
-    startDate: string;
-    endDate: string;
+    description:string;
   }[];
   experience: {
     title: string;
