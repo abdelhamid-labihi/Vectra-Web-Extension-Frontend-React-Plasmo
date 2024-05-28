@@ -41,7 +41,6 @@ const ResumeUploader = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("submitting")
 
     if (!selectedFile) {
       setError("No file selected")
@@ -53,7 +52,6 @@ const ResumeUploader = () => {
 
     const formData = new FormData()
     formData.append("resume_file", selectedFile)
-    console.log("formData", formData)
 
     try {
       const response = await fetch(
