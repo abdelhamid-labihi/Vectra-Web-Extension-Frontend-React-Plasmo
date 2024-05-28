@@ -69,7 +69,7 @@ const ResumeUploader = () => {
       const data = await response.json()
       console.log("data", data.inference.prediction)
 
-      localStorage.setItem("resume", JSON.stringify(data.inference.prediction))
+      chrome.storage.local.set({ resume: data.inference.prediction })
     } catch (err) {
       setError(error)
     } finally {
