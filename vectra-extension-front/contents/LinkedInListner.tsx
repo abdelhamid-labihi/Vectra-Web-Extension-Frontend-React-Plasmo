@@ -7,21 +7,34 @@ export const config: PlasmoCSConfig = {
 
 const LinkedInJobContent = () => {
   const previousTitleRef = useRef("")
-  const previousDescriptionRef = useRef("")
   const previousCompanyRef = useRef("")
+  const previousDescriptionRef = useRef("")
+
   const observerRef = useRef(null)
+
   console.log("==== LinkedInJobContent ====")
 
   const getJobTitleElement = () => {
     let targetElement = document.getElementById("ember35")
-    // check if the element is an anchor element
+
     if (targetElement && targetElement.tagName === "A") {
       return targetElement
     }
     targetElement = document.querySelector(
       ".job-details-jobs-unified-top-card__job-title h1"
     )
-    return targetElement
+    if (targetElement) {
+      return targetElement
+    }
+  }
+
+  const getCompanyElement = () => {
+    const companyNameElement = document.querySelector(
+      ".job-details-jobs-unified-top-card__primary-description-without-tagline a"
+    )
+    if (companyNameElement) {
+      return companyNameElement
+    }
   }
 
   const getJobDescriptionElement = () => {
@@ -39,19 +52,27 @@ const LinkedInJobContent = () => {
 
   const logJobContent = () => {
     const jobTitleElement = getJobTitleElement()
+    const companyElement = getCompanyElement()
     const jobDescriptionElement = getJobDescriptionElement()
+
     const newTitle = jobTitleElement.textContent.trim()
+    const newCompany = companyElement.textContent.trim()
     const newDescription = jobDescriptionElement.textContent.trim()
+
     if (
-      newDescription.length > 0 &&
-      newDescription !== previousDescriptionRef.current &&
       newTitle.length > 0 &&
-      newTitle !== previousTitleRef.current
+      newTitle !== previousTitleRef.current &&
+      newCompany.length > 0 &&
+      newCompany !== previousCompanyRef.current &&
+      newDescription.length > 0 &&
+      newDescription !== previousDescriptionRef.current
     ) {
       console.log(newTitle)
+      console.log(newCompany)
       console.log(newDescription)
-      previousDescriptionRef.current = newDescription
       previousTitleRef.current = newTitle
+      previousCompanyRef.current = newCompany
+      previousDescriptionRef.current = newDescription
     }
   }
 
