@@ -1,21 +1,21 @@
 import type { PlasmoCSConfig } from "plasmo"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export const config: PlasmoCSConfig = {
   matches: ["https://www.linkedin.com/jobs/*"]
 }
 
 const LinkedInJobContent = () => {
-  let previousContent = ""
-
+  const previousContentRef = useRef("")
+  const observerRef = useRef(null)
   const getJobDescriptionElement = () => {
+    console.log("====getJobDescriptionElement====")
+
     const h2Elements = document.querySelectorAll("h2")
     const targetElement = Array.from(h2Elements).find((h2) =>
-      [
-        "About the job",
-        "À propos de l'offre d'emploi",
-        "À propos de l’offre d’emploi"
-      ].some((str) => h2.textContent.includes(str))
+      ["About the job", "À propos de l’offre d’emploi"].some((str) =>
+        h2.textContent.includes(str)
+      )
     )
 
     if (targetElement) {
@@ -26,30 +26,38 @@ const LinkedInJobContent = () => {
   const logJobContent = () => {
     const siblingElement = getJobDescriptionElement()
     const newContent = siblingElement.textContent.trim()
-    if (newContent.length > 0 && newContent !== previousContent) {
+    if (newContent.length > 0 && newContent !== previousContentRef.current) {
       console.log(newContent)
-      previousContent = newContent
+      previousContentRef.current = newContent
     }
   }
 
   const observeContentChanges = () => {
-    const siblingElement = getJobDescriptionElement()
+    const targetNode = document.body
     const config = { childList: true, subtree: true }
 
-    const callback = (_mutationsList, _observer) => {
-      logJobContent()
+    if (observerRef.current) {
+      observerRef.current.disconnect()
     }
 
-    const observer = new MutationObserver(callback)
-    observer.observe(siblingElement, config)
+    const observer = new MutationObserver(() => {
+      logJobContent()
+    })
+
+    observer.observe(targetNode, config)
+    observerRef.current = observer
 
     logJobContent()
-
-    return () => observer.disconnect()
   }
 
   useEffect(() => {
     observeContentChanges()
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+      }
+    }
   }, [])
 
   return null
