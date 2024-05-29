@@ -1,4 +1,6 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
+import { extractDate } from '../util';
+
 
 import type { CVData } from "~interfaces/CvData"
 
@@ -13,22 +15,69 @@ const initialCvData: CVData = {
   linkedin: "",
   skills: [],
   experience: [],
-  education: []
+  education: [],
+  
 }
 
+
+
+
 const MakeCv = () => {
-  const [cvdata, setCvData] = useState<CVData>(initialCvData)
+  const [cvdata, setCvData] = useState<CVData>(initialCvData);
+  const [extractedData, setExtractedData] = useState<any>(null);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = event.target
-
+    const { name, value } = event.target;
     setCvData((prevCvData) => ({
       ...prevCvData,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    chrome.storage.local.get(["resume"], function (result) {
+      if (result.resume) {
+        console.log("Extracted data:", result.resume);
+        setExtractedData(result.resume);
+  
+        setCvData((prevCvData) => ({
+          ...prevCvData, // Preserve existing data
+          name: result.resume.given_names[0].value || "",
+          email: result.resume.email_address.value || "",
+          phone: result.resume.phone_number.value || "",
+          linkedin: result.resume.social_networks_urls.find(
+            (network) => network.name === "LinkedIn"
+          )?.url || "",
+          education: result.resume.education.map((edu) => ({
+            degree: edu.degree_type,
+            major: "",
+            university: edu.school,
+            startDate: extractDate(edu.start_year),
+            endDate: extractDate(edu.end_year),
+            years: `${edu.start_year} - ${edu.end_year}`,
+          })),
+          experience: result.resume.professional_experiences.map((exp) => ({
+            title: exp.role,
+            company: exp.employer,
+            startDate: extractDate(exp.start_year),
+            endDate: extractDate(exp.end_year),
+            years: `${exp.start_year} - ${exp.end_year}`,
+            description: "",
+          })),
+          skills: result.resume.hard_skills.map((skill) => ({
+            name: skill.value,
+            description: "",
+          })),
+        }));
+      }
+    });
+  }, []);
+
+  
+
+  
 
   const handleSkillChange = (
     index: number,
@@ -90,9 +139,13 @@ const MakeCv = () => {
     }))
   }
 
-  const removeSkill = (index: number) => {
+    
+    
+
+
+  const removeSkill = () => {
     setCvData((prevCvData) => {
-      const newSkills = prevCvData.skills.filter((_, i) => i !== index);
+      const newSkills = prevCvData.skills.filter((_, i) => i !== prevCvData.skills.length-1);
       return { ...prevCvData, skills: newSkills };
     });
   };
@@ -143,6 +196,8 @@ const MakeCv = () => {
       return { ...prevCvData, education: newEducation };
     });
   }
+  
+
 
   return (
     <div className="container mx-auto p-8">
@@ -163,6 +218,7 @@ const MakeCv = () => {
               name="name"
               value={cvdata.name}
               onChange={handleChange}
+             
               className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6 "
             />
           </div>
@@ -311,7 +367,7 @@ const MakeCv = () => {
             type="button"
             onClick={addEducation}
             className="rounded-full w-40 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm  ring-gray-300 bg-violet-400 hover:shadow-md ">
-            Add Education
+            Add Degree
           </button>
         </div>
 
@@ -420,15 +476,10 @@ const MakeCv = () => {
             <span className="px-2 bg-white text-center font-bold text-xl">Skills</span>
             <hr className="flex-grow border-gray-300 mt-1" />
           </div>
+          <div  className="mb-4 border rounded p-4">
+            <div className="grid grid-cols-3 gap-4">
           {cvdata.skills.map((skill, index) => (
-            <div key={index} className="mb-4 border rounded p-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor={`skill-name-${index}`}
-                    className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                    Skill
-                  </label>
+                <div key={index}>
                   <input
                     type="text"
                     id={`skill-name-${index}`}
@@ -438,43 +489,26 @@ const MakeCv = () => {
                     className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
                   />
                 </div>
-                <div>
-                  <label
-                    htmlFor={`skill-start-date-${index}`}
-                    className="block text-sm font-medium leading-6 text-gray-900">
-                    Description
-                  </label>
-                  <input
-                    type="text"
-                    id={`skill-start-date-${index}`}
-                    name="description"
-                    value={skill.description}
-                    onChange={(event) => handleSkillChange(index, event)}
-                    className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6 mt-[7px]"
-                  />
-                </div>
+
+
+              ))}
               </div>
               <button
-                    type="button"
-                    onClick={() => removeSkill(index)}
-                    className=" px-2.5 py-1.5 text-sm  font-semibold  text-red-600 ring-gray-300 mt-2">
-                    Remove Skill
+              type="button"
+              onClick={() => removeSkill()}
+              className=" px-2.5 py-1.5 text-sm  font-semibold  text-red-600 ring-gray-300 mt-2">
+              Remove Skill
               </button>
             </div>
-             
-          ))}
           <button
             type="button"
             onClick={addSkill}
             className="rounded-full w-40 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm  ring-gray-300 bg-violet-400 hover:shadow-md ">
             Add Skill
           </button>
+          
          
         </div>
-
-      
-
-        
 
         <div className="mt-8 text-center">
           <button
