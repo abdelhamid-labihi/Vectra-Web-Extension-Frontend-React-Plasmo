@@ -86,7 +86,7 @@ const ResumeMatcher = () => {
            
             <div className="p-6 fixed top-[620px] space-y-1 ">
             <h6 className="text-center font-medium">check what do you want to add </h6>
-            <button className="rounded-sm px-2.5 py-1.5 bg-indigo-500  text-white text-sm font-semibold ring-inset hover:bg-black-800 py-3  w-64">
+            <button className="rounded-sm px-2.5  bg-indigo-500  text-white text-sm font-semibold ring-inset hover:bg-black-800 py-3  w-64">
                 Optimize your Cv 
             </button>
         </div>
