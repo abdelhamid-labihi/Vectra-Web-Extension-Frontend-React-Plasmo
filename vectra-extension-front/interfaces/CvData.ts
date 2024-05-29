@@ -23,4 +23,8 @@ export interface CVData {
     endDate: string; 
     years: string;
   }[];
+  languages : {
+    name: string;
+    level: string;
+  }[];  
 }

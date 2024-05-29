@@ -16,6 +16,7 @@ const initialCvData: CVData = {
   skills: [],
   experience: [],
   education: [],
+  languages : []
   
 }
 
@@ -70,10 +71,15 @@ const MakeCv = () => {
             name: skill.value,
             description: "",
           })),
+          languages: result.resume.languages.map((lang) => ({
+            language: lang.language,
+            level: lang.level,
+          })),
         }));
       }
     });
   }, []);
+
 
   
 
@@ -196,7 +202,40 @@ const MakeCv = () => {
       return { ...prevCvData, education: newEducation };
     });
   }
+  // Add a new language
+  const addLanguage = () => {
+    setCvData((prevCvData) => ({
+      ...prevCvData,
+      languages: [
+        ...prevCvData.languages,
+        {
+          name: "", // Add name
+          level: "",
+        },
+      ],
+    }));
+  };
+
+  // Remove a language
+  const removeLanguage = (index: number) => {
+    setCvData((prevCvData) => ({
+      ...prevCvData,
+      languages: prevCvData.languages.filter((_, i) => i !== index),
+    }));
+  };
   
+  const handleLanguageChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setCvData((prevCvData) => ({
+      ...prevCvData,
+      languages: prevCvData.languages.map((lang, i) =>
+        i === index ? { ...lang, [name]: value } : lang
+      ),
+    }));
+  };
 
 
   return (
@@ -509,6 +548,75 @@ const MakeCv = () => {
           
          
         </div>
+
+        <div className="mt-4">
+        <div className="flex items-center w-full mt-2 mb-4">
+          <span className="px-2 bg-white text-center font-bold text-xl">
+            Languages
+          </span>
+          <hr className="flex-grow border-gray-300 mt-1" />
+        </div>
+        <div className="mb-4 border rounded p-4">
+          <div className="grid grid-cols-1 gap-1">
+            {cvdata.languages.map((lang, index) => (
+              <div key={index} className="mb-1">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor={`language-name-${index}`}
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Language
+                    </label>
+                    <input
+                      type="text"
+                      id={`language-name-${index}`}
+                      name="language"
+                      value={lang.name}
+                      onChange={(event) => handleLanguageChange(index, event)}
+                      className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor={`language-level-${index}`}
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Level
+                    </label>
+                    <input
+                      type="text"
+                      id={`language-level-${index}`}
+                      name="level"
+                      value={lang.level}
+                      onChange={(event) =>
+                        handleLanguageChange(index, event)
+                      }
+                      className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeLanguage(index)}
+                  className="px-2.5 py-1.5 text-sm font-semibold text-red-600 ring-gray-300 mt-2"
+                >
+                  Remove Language
+                </button>
+              </div>
+            ))}
+          </div>
+          </div>
+          <button
+            type="button"
+            onClick={addLanguage}
+            className="rounded-full w-40 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-gray-300 bg-violet-400 hover:shadow-md"
+          >
+            Add Language
+          </button>
+        </div>
+
+
 
         <div className="mt-8 text-center">
           <button
