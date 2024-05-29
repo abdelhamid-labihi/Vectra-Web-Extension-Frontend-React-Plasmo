@@ -27,4 +27,8 @@ export interface CVData {
     name: string;
     level: string;
   }[];  
+  softSkills :{
+    name: string;
+  }[];
+  
 }
