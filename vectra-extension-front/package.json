@@ -13,6 +13,7 @@
     "16": "^0.0.2",
     "@clerk/clerk-js": "^5.5.3",
     "@clerk/clerk-react": "^5.2.2",
+    "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/selector": "^0.0.5",
     "dotenv": "^16.4.5",
     "mindee": "^4.11.0",

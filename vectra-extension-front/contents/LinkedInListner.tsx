@@ -1,8 +1,27 @@
 import type { PlasmoCSConfig } from "plasmo"
 import { useEffect, useRef } from "react"
 
+import { sendToBackground } from "@plasmohq/messaging"
+
+import type {
+  RequestBody,
+  ResponseBody
+} from "~background/messages/suggest_skills"
+
 export const config: PlasmoCSConfig = {
   matches: ["https://www.linkedin.com/jobs/*"]
+}
+
+const sendJobInformation = async (
+  job_title: string,
+  company: string,
+  job_description: string
+) => {
+  const resp = await sendToBackground<RequestBody, ResponseBody>({
+    name: "suggest_skills",
+    body: { job_title, company, job_description }
+  })
+  console.log(resp)
 }
 
 const LinkedInJobContent = () => {
@@ -50,7 +69,7 @@ const LinkedInJobContent = () => {
     }
   }
 
-  const logJobContent = () => {
+  const getJobInformation = async () => {
     const jobTitleElement = getJobTitleElement()
     const companyElement = getCompanyElement()
     const jobDescriptionElement = getJobDescriptionElement()
@@ -73,6 +92,8 @@ const LinkedInJobContent = () => {
       previousTitleRef.current = newTitle
       previousCompanyRef.current = newCompany
       previousDescriptionRef.current = newDescription
+
+      await sendJobInformation(newTitle, newCompany, newDescription)
     }
   }
 
@@ -85,13 +106,13 @@ const LinkedInJobContent = () => {
     }
 
     const observer = new MutationObserver(() => {
-      logJobContent()
+      getJobInformation()
     })
 
     observer.observe(targetNode, config)
     observerRef.current = observer
 
-    logJobContent()
+    getJobInformation()
   }
 
   useEffect(() => {
