@@ -41,6 +41,12 @@ const ResumeUploader = () => {
     setDragging(false)
   }
 
+  const handleSuccess=()=>{
+    chrome.tabs.update({
+      url: chrome.runtime.getURL("tabs/MakeCv.html")
+    })
+  }
+
  
 
   const handleSubmit = async (e) => {
@@ -129,7 +135,7 @@ const ResumeUploader = () => {
                     : {}
                 }
                 disabled={isloading}
-                onClick={handleSubmit}>
+                onClick={success ? handleSuccess : handleSubmit}>
                 {isloading ? (
                   <svg
                     aria-hidden="true"
@@ -147,9 +153,7 @@ const ResumeUploader = () => {
                     />
                   </svg>
                 ) : success ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-5 mx-auto text-white text-lg  ">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                  </svg>
+                    "Continue"
                 ) : (
                   "Sumbit"
                 )}

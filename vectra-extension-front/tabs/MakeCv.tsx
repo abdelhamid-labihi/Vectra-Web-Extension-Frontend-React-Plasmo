@@ -16,7 +16,8 @@ const initialCvData: CVData = {
   skills: [],
   experience: [],
   education: [],
-  languages : []
+  languages : [],
+  softSkills: [],
   
 }
 
@@ -74,6 +75,9 @@ const MakeCv = () => {
           languages: result.resume.languages.map((lang) => ({
             language: lang.language,
             level: lang.level,
+          })),
+          softSkills: result.resume.soft_skills.map((skill) => ({
+            name: skill.value,
           })),
         }));
       }
@@ -234,6 +238,40 @@ const MakeCv = () => {
       languages: prevCvData.languages.map((lang, i) =>
         i === index ? { ...lang, [name]: value } : lang
       ),
+    }));
+  };
+
+  const handleSoftSkillChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setCvData((prevCvData) => ({
+      ...prevCvData,
+      softSkills: prevCvData.softSkills.map((skill, i) =>
+        i === index ? { ...skill, [name]: value } : skill
+      ),
+    }));
+  };
+
+   // Add a new soft skill
+   const addSoftSkill = () => {
+    setCvData((prevCvData) => ({
+      ...prevCvData,
+      softSkills: [
+        ...prevCvData.softSkills,
+        {
+          name: "",
+        },
+      ],
+    }));
+  };
+
+  // Remove a soft skill
+  const removeSoftSkill = (index: number) => {
+    setCvData((prevCvData) => ({
+      ...prevCvData,
+      softSkills: prevCvData.softSkills.filter((_, i) => i !== index),
     }));
   };
 
@@ -615,6 +653,53 @@ const MakeCv = () => {
             Add Language
           </button>
         </div>
+
+        <div className="mt-4">
+        <div className="flex items-center w-full mt-2 mb-4">
+          <span className="px-2 bg-white text-center font-bold text-xl">
+            Soft Skills
+          </span>
+          <hr className="flex-grow border-gray-300 mt-1" />
+        </div>
+        <div className="mb-4 border rounded p-4">
+          <div className="grid grid-cols-3 gap-4">
+            {cvdata.softSkills.map((skill, index) => (
+              <div key={index} className="mb-2">
+                <div className="grid grid-cols-1">
+                  <div key={index}>
+                   
+                    <input
+                      type="text"
+                      id={`softskill-name-${index}`}
+                      name="name"
+                      value={skill.name}
+                      onChange={(event) =>
+                        handleSoftSkillChange(index, event)
+                      }
+                      className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeSoftSkill(index)}
+                  className="px-2.5 py-1.5 text-sm font-semibold text-red-600 ring-gray-300 mt-2"
+                >
+                  Remove Skill
+                </button>
+              </div>
+            ))}
+          </div>
+         
+        </div>
+        <button
+            type="button"
+            onClick={addSoftSkill}
+            className="rounded-full w-40 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-gray-300 bg-violet-400 hover:shadow-md"
+          >
+            Add Soft Skill
+          </button>
+      </div>
 
 
 
