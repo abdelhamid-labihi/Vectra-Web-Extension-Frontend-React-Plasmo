@@ -18,10 +18,13 @@ const sendJobInformation = async (
   job_description: string
 ) => {
   const resume = await chrome.storage.local.get("resume")
-  const email_address = resume.resume.email_address.value
+  const first_name = resume.resume.given_names[0].value
+  const last_name = resume.resume.surnames[0].value
+  const username = `${first_name}_${last_name}`
+
   const resp = await sendToBackground<RequestBody, ResponseBody>({
     name: "suggest_skills",
-    body: { job_title, company, job_description, email_address }
+    body: { job_title, company, job_description, username }
   })
   console.log(resp)
 }

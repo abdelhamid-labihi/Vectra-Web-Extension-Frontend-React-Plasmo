@@ -4,7 +4,7 @@ export type RequestBody = {
   job_title: string
   company: string
   job_description: string
-  email_address: string
+  username: string
 }
 
 export type ResponseBody = {
@@ -17,7 +17,7 @@ const handler: PlasmoMessaging.MessageHandler<
 > = async (req, res) => {
   try {
     console.log("Sending job information to background script")
-    const { job_title, company, job_description, email_address } = req.body
+    const { job_title, company, job_description, username } = req.body
 
     const response = await fetch(
       "https://vectra-backend-ai.issaminu.com/suggest_skills",
@@ -30,7 +30,7 @@ const handler: PlasmoMessaging.MessageHandler<
           job_title,
           company,
           job_description,
-          email_address
+          username
         })
       }
     )
