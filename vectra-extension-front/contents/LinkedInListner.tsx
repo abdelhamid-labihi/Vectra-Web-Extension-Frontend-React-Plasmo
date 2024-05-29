@@ -45,8 +45,8 @@ const LinkedInJobContent = () => {
     if (
       newDescription.length > 0 &&
       newDescription !== previousDescriptionRef.current &&
-      newTitle !== previousTitleRef.current &&
-      newTitle !== previousCompanyRef.current
+      newTitle.length > 0 &&
+      newTitle !== previousTitleRef.current
     ) {
       console.log(newTitle)
       console.log(newDescription)
