@@ -6,11 +6,25 @@ export const config: PlasmoCSConfig = {
 }
 
 const LinkedInJobContent = () => {
-  const previousContentRef = useRef("")
+  const previousTitleRef = useRef("")
+  const previousDescriptionRef = useRef("")
+  const previousCompanyRef = useRef("")
   const observerRef = useRef(null)
-  const getJobDescriptionElement = () => {
-    console.log("====getJobDescriptionElement====")
+  console.log("==== LinkedInJobContent ====")
 
+  const getJobTitleElement = () => {
+    let targetElement = document.getElementById("ember35")
+    // check if the element is an anchor element
+    if (targetElement && targetElement.tagName === "A") {
+      return targetElement
+    }
+    targetElement = document.querySelector(
+      ".job-details-jobs-unified-top-card__job-title h1"
+    )
+    return targetElement
+  }
+
+  const getJobDescriptionElement = () => {
     const h2Elements = document.querySelectorAll("h2")
     const targetElement = Array.from(h2Elements).find((h2) =>
       ["About the job", "À propos de l’offre d’emploi"].some((str) =>
@@ -24,11 +38,20 @@ const LinkedInJobContent = () => {
   }
 
   const logJobContent = () => {
-    const siblingElement = getJobDescriptionElement()
-    const newContent = siblingElement.textContent.trim()
-    if (newContent.length > 0 && newContent !== previousContentRef.current) {
-      console.log(newContent)
-      previousContentRef.current = newContent
+    const jobTitleElement = getJobTitleElement()
+    const jobDescriptionElement = getJobDescriptionElement()
+    const newTitle = jobTitleElement.textContent.trim()
+    const newDescription = jobDescriptionElement.textContent.trim()
+    if (
+      newDescription.length > 0 &&
+      newDescription !== previousDescriptionRef.current &&
+      newTitle !== previousTitleRef.current &&
+      newTitle !== previousCompanyRef.current
+    ) {
+      console.log(newTitle)
+      console.log(newDescription)
+      previousDescriptionRef.current = newDescription
+      previousTitleRef.current = newTitle
     }
   }
 
