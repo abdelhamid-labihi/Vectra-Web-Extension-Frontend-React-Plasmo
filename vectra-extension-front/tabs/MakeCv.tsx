@@ -190,7 +190,12 @@ const MakeCv = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-    console.log("CV Data:", cvdata)
+    console.log("CV Data:", cvdata);
+    setCvData(initialCvData);
+    chrome.storage.local.set({ 'isAuthenticated': true }, function() {
+      console.log('Authentication is set to true');
+    });
+    window.close();
   }
 
   function removeExperience(index: number): void {
@@ -275,10 +280,13 @@ const MakeCv = () => {
     }));
   };
 
+  
+
 
   return (
     <div className="container mx-auto p-8">
       <img src={icon} alt="Icon" width={"48px"} className="block mx-auto" />
+      <h2 className="text-center font-semibold text-3xl text-indigo-400 block relative top-5">Make sure your information is correct 👇  </h2>
       <form
         onSubmit={handleSubmit}
         className="mt-12  border p-5 rounded-md shadow-md  ">
@@ -610,7 +618,7 @@ const MakeCv = () => {
                       type="text"
                       id={`language-name-${index}`}
                       name="language"
-                      value={lang.name}
+                      value={lang.language}
                       onChange={(event) => handleLanguageChange(index, event)}
                       className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
                     />
