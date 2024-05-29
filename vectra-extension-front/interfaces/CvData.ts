@@ -3,12 +3,10 @@ export interface CVData {
   email: string;
   phone: string;
   linkedin: string;
-  skills: {
-    name: string;
-    description:string;
-  }[];
+  GitHub:string;
+  skills: string[];
   experience: {
-    title: string;
+    job_title: string;
     company: string;
     years: string;
     startDate: string; 
@@ -17,18 +15,24 @@ export interface CVData {
   }[];
   education: {
     degree: string;
-    major: string;
+    branch: string;
     university: string;
     startDate: string; 
     endDate: string; 
     years: string;
+    city:string
+  }[];
+  projects: {
+    title: string;
+    description: string;
+    tools: string;
+    startDate:string;
+    endDate:string;
   }[];
   languages : {
     name: string;
     level: string;
   }[];  
-  softSkills :{
-    name: string;
-  }[];
+  softSkills :string[];
   
 }

@@ -18,6 +18,7 @@ const initialCvData: CVData = {
   education: [],
   languages : [],
   softSkills: [],
+  projects:[],
   
 }
 
@@ -52,33 +53,31 @@ const MakeCv = () => {
           linkedin: result.resume.social_networks_urls.find(
             (network) => network.name === "LinkedIn"
           )?.url || "",
+          GitHub: result.resume.social_networks_urls.find(
+            (network) => network.name === "GitHub"
+          )?.url || "",
           education: result.resume.education.map((edu) => ({
             degree: edu.degree_type,
-            major: "",
+            branch: edu.degree_domain,
             university: edu.school,
             startDate: extractDate(edu.start_year),
             endDate: extractDate(edu.end_year),
             years: `${edu.start_year} - ${edu.end_year}`,
           })),
           experience: result.resume.professional_experiences.map((exp) => ({
-            title: exp.role,
+            job_title: exp.role,
             company: exp.employer,
             startDate: extractDate(exp.start_year),
             endDate: extractDate(exp.end_year),
             years: `${exp.start_year} - ${exp.end_year}`,
             description: "",
           })),
-          skills: result.resume.hard_skills.map((skill) => ({
-            name: skill.value,
-            description: "",
-          })),
+          skills: result.resume.hard_skills,
           languages: result.resume.languages.map((lang) => ({
             language: lang.language,
             level: lang.level,
           })),
-          softSkills: result.resume.soft_skills.map((skill) => ({
-            name: skill.value,
-          })),
+          softSkills: result.resume.soft_skills,
         }));
       }
     });
@@ -97,7 +96,7 @@ const MakeCv = () => {
     setCvData((prevCvData) => ({
       ...prevCvData,
       skills: prevCvData.skills.map((skill, i) =>
-        i === index ? { ...skill, [name]: value } : skill
+        i === index ? value:skill
       )
     }))
   }
@@ -107,10 +106,7 @@ const MakeCv = () => {
       ...prevCvData,
       skills: [
         ...prevCvData.skills,
-        {
-          name: "",
-          description: "",
-        }
+        "",
       ]
     }))
   }
@@ -122,11 +118,12 @@ const MakeCv = () => {
         ...prevCvData.education,
         {
           degree: "",
-          major: "",
+          branch: "",
           university: "",
           startDate: "", // Add startDate
           endDate: "", // Add endDate
-          years: "" // Add years
+          years: "",
+          city:"" // Add years
         }
       ]
     }))
@@ -138,7 +135,7 @@ const MakeCv = () => {
       experience: [
         ...prevCvData.experience,
         {
-          title: "",
+          job_title: "",
           company: "",
           years: "", // Add years
           startDate: "",
@@ -254,7 +251,7 @@ const MakeCv = () => {
     setCvData((prevCvData) => ({
       ...prevCvData,
       softSkills: prevCvData.softSkills.map((skill, i) =>
-        i === index ? { ...skill, [name]: value } : skill
+        i === index ? value : skill
       ),
     }));
   };
@@ -265,9 +262,7 @@ const MakeCv = () => {
       ...prevCvData,
       softSkills: [
         ...prevCvData.softSkills,
-        {
-          name: "",
-        },
+        "",
       ],
     }));
   };
@@ -279,7 +274,45 @@ const MakeCv = () => {
       softSkills: prevCvData.softSkills.filter((_, i) => i !== index),
     }));
   };
+ 
+  // Function to add a new project
+  const addProject = () => {
+    setCvData((prevCvData) => ({
+      ...prevCvData,
+      projects: [
+        ...prevCvData.projects,
+        {
+          title: "",
+          description: "",
+          tools: "",
+          startDate: "",
+          endDate: ""
+        },
+      ],
+    }));
+  };
 
+  // Function to remove a project
+  const removeProject = (index: number) => {
+    setCvData((prevCvData) => ({
+      ...prevCvData,
+      projects: prevCvData.projects.filter((_, i) => i !== index),
+    }));
+  };
+
+  // Function to handle changes in project fields
+  const handleProjectChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setCvData((prevCvData) => ({
+      ...prevCvData,
+      projects: prevCvData.projects.map((project, i) =>
+        i === index ? { ...project, [name]: value } : project
+      ),
+    }));
+  };
   
 
 
@@ -347,8 +380,25 @@ const MakeCv = () => {
               type="url"
               id="linkedin"
               name="linkedin"
-              placeholder="HyperLink"
+              placeholder="URL"
               value={cvdata.linkedin}
+              onChange={handleChange}
+              className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="linkedin"
+              className="block text-sm font-medium leading-6 text-gray-900">
+              LinkedIn
+            </label>
+            <input
+              type="url"
+              id="Github"
+              name="GitHub"
+              placeholder="URL"
+              value={cvdata.GitHub}
               onChange={handleChange}
               className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
             />
@@ -383,13 +433,13 @@ const MakeCv = () => {
                   <label
                     htmlFor={`education-major-${index}`}
                     className="block text-sm font-medium leading-6 text-gray-900">
-                    Major
+                    Branch
                   </label>
                   <input
                     type="text"
                     id={`education-major-${index}`}
-                    name="major"
-                    value={edu.major}
+                    name="branch"
+                    value={edu.branch}
                     onChange={(event) => handleEducationChange(index, event)}
                     className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
                   />
@@ -409,6 +459,24 @@ const MakeCv = () => {
                     className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
                   />
                 </div>
+
+                <div>
+                  <label
+                    htmlFor={`education-city-${index}`}
+                    className="block text-sm font-medium leading-6 text-gray-900">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    id={`education-university-${index}`}
+                    name="university"
+                    value={edu.city}
+                    onChange={(event) => handleEducationChange(index, event)}
+                    className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+                  />
+                </div>
+
                 <div>
                   <label
                     htmlFor={`education-start-date-${index}`}
@@ -474,7 +542,7 @@ const MakeCv = () => {
                     type="text"
                     id={`experience-title-${index}`}
                     name="title"
-                    value={exp.title}
+                    value={exp.job_title}
                     onChange={(event) => handleExperienceChange(index, event)}
                     className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
                   />
@@ -569,7 +637,7 @@ const MakeCv = () => {
                     type="text"
                     id={`skill-name-${index}`}
                     name="name"
-                    value={skill.name}
+                    value={skill.value}
                     onChange={(event) => handleSkillChange(index, event)}
                     className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
                   />
@@ -602,9 +670,9 @@ const MakeCv = () => {
           </span>
           <hr className="flex-grow border-gray-300 mt-1" />
         </div>
+            {cvdata.languages.map((lang, index) => (
         <div className="mb-4 border rounded p-4">
           <div className="grid grid-cols-1 gap-1">
-            {cvdata.languages.map((lang, index) => (
               <div key={index} className="mb-1">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -650,9 +718,9 @@ const MakeCv = () => {
                   Remove Language
                 </button>
               </div>
+          </div>
+          </div>
             ))}
-          </div>
-          </div>
           <button
             type="button"
             onClick={addLanguage}
@@ -669,18 +737,17 @@ const MakeCv = () => {
           </span>
           <hr className="flex-grow border-gray-300 mt-1" />
         </div>
+            {cvdata.softSkills.map((skill, index) => (
         <div className="mb-4 border rounded p-4">
           <div className="grid grid-cols-3 gap-4">
-            {cvdata.softSkills.map((skill, index) => (
               <div key={index} className="mb-2">
                 <div className="grid grid-cols-1">
                   <div key={index}>
-                   
                     <input
                       type="text"
                       id={`softskill-name-${index}`}
                       name="name"
-                      value={skill.name}
+                      value={skill.value}
                       onChange={(event) =>
                         handleSoftSkillChange(index, event)
                       }
@@ -696,10 +763,10 @@ const MakeCv = () => {
                   Remove Skill
                 </button>
               </div>
-            ))}
           </div>
-         
         </div>
+            ))}
+         
         <button
             type="button"
             onClick={addSoftSkill}
@@ -708,6 +775,109 @@ const MakeCv = () => {
             Add Soft Skill
           </button>
       </div>
+
+
+
+      <div className="mt-4">
+         <div className="flex items-center w-full mt-2 mb-4">
+            <span className="px-2 bg-white text-center font-bold text-xl  ">Projects</span>
+            <hr className="flex-grow border-gray-300 mt-1" />
+          </div>
+          {cvdata.projects.map((proj, index) => (
+            <div key={index} className="mb-4 border rounded p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor={`project-${index}`}
+                    className="block text-sm font-medium leading-6 text-gray-900">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    id={`project-title-${index}`}
+                    name="title"
+                    value={proj.title}
+                    onChange={(event) => handleProjectChange(index, event)}
+                    className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`project-descritpion-${index}`}
+                    className="block text-sm font-medium leading-6 text-gray-900">
+                    Description
+                  </label>
+                  <input
+                    type="text"
+                    id={`project-descritpion-${index}`}
+                    name="description"
+                    value={proj.description}
+                    onChange={(event) => handleProjectChange(index, event)}
+                    className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`project-tools-${index}`}
+                    className="block text-sm font-medium leading-6 text-gray-900">
+                    Tools
+                  </label>
+                  <input
+                    type="text"
+                    id={`project-tools-${index}`}
+                    name="tools"
+                    value={proj.tools}
+                    onChange={(event) => handleProjectChange(index, event)}
+                    className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor={`projet-start-date-${index}`}
+                    className="block text-sm font-medium leading-6 text-gray-900">
+                    Start Date
+                  </label>
+                  <input
+                    type="date"
+                    id={`project-start-date-${index}`}
+                    name="startDate"
+                    value={proj.startDate}
+                    onChange={(event) => handleProjectChange(index, event)}
+                    className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`project-end-date-${index}`}
+                    className="block text-gray-700 font-bold mb-2">
+                    End Date
+                  </label>
+                  <input
+                    type="date"
+                    id={`project-end-date-${index}`}
+                    name="endDate"
+                    value={proj.endDate}
+                    onChange={(event) => handleProjectChange(index, event)}
+                    className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <button
+                    type="button"
+                    onClick={() => removeProject(index)}
+                    className=" px-2.5 py-1.5 text-sm  font-semibold  text-red-600 ring-gray-300 mt-2">
+                    Remove Project
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addProject}
+            className="rounded-full w-40 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm  ring-gray-300 bg-violet-400 hover:shadow-md ">
+            Add Project
+          </button>
+        </div>
 
 
 
