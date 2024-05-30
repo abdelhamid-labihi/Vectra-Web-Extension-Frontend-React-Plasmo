@@ -478,7 +478,6 @@ const MakeCv = () => {
                   </label>
                   <input
                     type="text"
-                    required
                     id={`education-city-${index}`}
                     name="city"
                     value={edu.city}
