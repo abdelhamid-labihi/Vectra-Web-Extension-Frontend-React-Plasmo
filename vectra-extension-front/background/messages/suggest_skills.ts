@@ -20,7 +20,7 @@ const handler: PlasmoMessaging.MessageHandler<
     const { job_title, company, job_description, username } = req.body
 
     const response = await fetch(
-      "https://vectra-backend-ai.issaminu.com/suggest_skills",
+      `https://vectra-backend-spring.issaminu.com/resume/missed_skills?username=${username}`,
       {
         method: "POST",
         headers: {
@@ -29,8 +29,7 @@ const handler: PlasmoMessaging.MessageHandler<
         body: JSON.stringify({
           job_title,
           company,
-          job_description,
-          username
+          job_description
         })
       }
     )
