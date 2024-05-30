@@ -41,6 +41,13 @@ const MakeCv = () => {
         console.log("Extracted data:", result.resume)
         setExtractedData(result.resume)
 
+        const hard_skills = result.resume.hard_skills.map(
+          (skill) => skill.value
+        )
+        const soft_skills = result.resume.soft_skills.map(
+          (skill) => skill.value
+        )
+
         setCvData((prevCvData) => ({
           ...prevCvData, // Preserve existing data
           name: result.resume.given_names[0].value || "",
@@ -70,12 +77,12 @@ const MakeCv = () => {
             years: `${exp.start_year} - ${exp.end_year}`,
             description: ""
           })),
-          skills: result.resume.hard_skills,
+          skills: hard_skills,
           languages: result.resume.languages.map((lang) => ({
             language: lang.language,
             level: lang.level
           })),
-          softSkills: result.resume.soft_skills
+          softSkills: soft_skills
         }))
       }
     })
@@ -387,16 +394,20 @@ const MakeCv = () => {
 
           <div>
             <label
-              htmlFor="linkedin"
+              htmlFor="github"
               className="block text-sm font-medium leading-6 text-gray-900">
-              LinkedIn
+              GitHub
             </label>
             <input
               type="url"
               id="Github"
               name="GitHub"
               placeholder="URL"
-              value={cvdata.GitHub}
+              value={
+                cvdata.GitHub.startsWith("https://www.")
+                  ? cvdata.GitHub
+                  : "https://www." + cvdata.GitHub
+              }
               onChange={handleChange}
               className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
             />
@@ -468,8 +479,8 @@ const MakeCv = () => {
                   <input
                     type="text"
                     required
-                    id={`education-university-${index}`}
-                    name="university"
+                    id={`education-city-${index}`}
+                    name="city"
                     value={edu.city}
                     onChange={(event) => handleEducationChange(index, event)}
                     className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
@@ -639,7 +650,7 @@ const MakeCv = () => {
                     type="text"
                     id={`skill-name-${index}`}
                     name="name"
-                    value={skill.value}
+                    value={skill}
                     onChange={(event) => handleSkillChange(index, event)}
                     className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
                   />
