@@ -7,8 +7,12 @@ import { Gauge } from "react-circular-gauge"
 import { sendToBackground } from "@plasmohq/messaging"
 
 import type {
-  RequestBody,
-  ResponseBody
+  EnhanceResumeRequestBody,
+  EnhanceResumeResponseBody
+} from "~background/messages/enhance_resume"
+import type {
+  SuggestSkillsRequestBody,
+  SuggestSkillsResponseBody
 } from "~background/messages/suggest_skills"
 
 import icon from "../assets/icon.png"
@@ -177,7 +181,10 @@ const LinkedInJobContent = () => {
     console.log(resume)
     console.log(username)
 
-    const resp = (await sendToBackground<RequestBody, ResponseBody>({
+    const resp = (await sendToBackground<
+      SuggestSkillsRequestBody,
+      SuggestSkillsResponseBody
+    >({
       name: "suggest_skills",
       body: { job_title, company, job_description, username }
     })) as unknown as { message: Skills & { match: number } }
@@ -236,28 +243,27 @@ const LinkedInJobContent = () => {
       .filter((skill) => checkedSoftSkills[skill])
       .concat(skills.soft_skills_present)
 
-    const body = JSON.stringify({
-      technical_skills,
-      soft_skills,
-      enhance: optimise
-    })
-    console.log(body)
-
     const resume = await chrome.storage.local.get("resume")
     const first_name = resume.resume.given_names[0].value
 
-    // const response = await fetch(
-    //   `https://vectra-backend-spring.issaminu.com/resume/enhance?username=${first_name}`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     },
-    //     body
-    //   }
-    // )
+    const body = {
+      hard_skills: technical_skills,
+      soft_skills,
+      job_title: previousTitleRef.current,
+      company: previousCompanyRef.current,
+      enhance: optimise,
+      username: first_name
+    }
+    console.log("body", body)
 
-    // console.log(response)
+    const resp = await sendToBackground<
+      EnhanceResumeRequestBody,
+      EnhanceResumeResponseBody
+    >({
+      name: "enhance_resume",
+      body
+    })
+    console.log(resp)
   }
 
   if (!progress || !skills) return null
@@ -315,7 +321,9 @@ const LinkedInJobContent = () => {
                 </h3>
                 <div className="flex flex-col mt-2 mb-4 space-y-1">
                   {skills.technical_skills_present.map((skill, index) => (
-                    <span className="flex items-center h-6 pl-1 pr-2 font-semibold text-gray-600 bg-gray-100 rounded-md w-fit">
+                    <span
+                      key={index}
+                      className="flex items-center h-6 pl-1 pr-2 font-semibold text-gray-600 bg-gray-100 rounded-md w-fit">
                       <span className="mr-1 text-xs">✔️</span> {skill}
                     </span>
                   ))}
@@ -359,7 +367,9 @@ const LinkedInJobContent = () => {
                 </h3>
                 <div className="flex flex-col mt-2 mb-4 space-y-1">
                   {skills.soft_skills_present.map((skill, index) => (
-                    <span className="flex items-center h-6 pl-1 pr-2 font-semibold text-gray-600 bg-gray-100 rounded-md w-fit">
+                    <span
+                      key={index}
+                      className="flex items-center h-6 pl-1 pr-2 font-semibold text-gray-600 bg-gray-100 rounded-md w-fit">
                       <span className="mr-1 text-xs">✔️</span> {skill}
                     </span>
                   ))}
