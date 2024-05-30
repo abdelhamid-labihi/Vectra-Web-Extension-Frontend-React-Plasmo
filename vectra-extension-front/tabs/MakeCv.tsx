@@ -382,11 +382,7 @@ const MakeCv = () => {
               id="linkedin"
               name="linkedin"
               placeholder="HyperLink"
-              value={
-                cvdata.linkedin.startsWith("https://www.")
-                  ? cvdata.linkedin
-                  : "https://www." + cvdata.linkedin
-              }
+              value={cvdata.linkedin}
               onChange={handleChange}
               className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
             />
@@ -403,11 +399,7 @@ const MakeCv = () => {
               id="Github"
               name="GitHub"
               placeholder="URL"
-              value={
-                cvdata.GitHub.startsWith("https://www.")
-                  ? cvdata.GitHub
-                  : "https://www." + cvdata.GitHub
-              }
+              value={cvdata.GitHub}
               onChange={handleChange}
               className="lock w-full rounded-md border-0 py-1.5 px-2 font-sm shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-violet-400 text-gray-700 sm:text-sm sm:leading-6"
             />
