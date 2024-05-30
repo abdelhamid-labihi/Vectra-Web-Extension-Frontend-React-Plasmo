@@ -167,33 +167,18 @@ const LinkedInJobContent = () => {
     console.log(resume)
     console.log(username)
 
-    const resp = await sendToBackground<RequestBody, ResponseBody>({
+    const resp = (await sendToBackground<RequestBody, ResponseBody>({
       name: "suggest_skills",
       body: { job_title, company, job_description, username }
-    })
+    })) as unknown as { message: Skills & { match: number } }
     console.log(resp)
 
-    setSkills({
-      technical_skills_present: [
-        "PHP",
-        "JavaScript",
-        "HTML/CSS",
-        "SQL",
-        "Java"
-      ],
-      technical_skills_missing: ["Symfony", "API REST", "Git"],
-      soft_skills_present: [],
-      soft_skills_missing: [
-        "teamwork",
-        "collaboration",
-        "analytical thinking",
-        "problem-solving",
-        "attention to detail",
-        "commitment to code quality",
-        "performance optimization",
-        "security integration"
-      ]
-    })
+    if (resp.message) {
+      if (resp.message.match) {
+        delete resp.message.match
+        setSkills(resp.message)
+      }
+    }
   }
 
   useEffect(() => {
