@@ -11,15 +11,21 @@
   },
   "dependencies": {
     "16": "^0.0.2",
+    "@alptugidin/react-circular-progress-bar": "^1.1.2",
     "@clerk/clerk-js": "^5.5.3",
     "@clerk/clerk-react": "^5.2.2",
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/selector": "^0.0.5",
+    "@react-spring/web": "^9.7.3",
+    "chroma-js": "^2.4.2",
     "dotenv": "^16.4.5",
     "mindee": "^4.13.0",
     "plasmo": "0.86.3",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-circular-gauge": "^1.1.1",
+    "react-circular-progressbar": "^2.1.0",
+    "react-dom": "18.3.1",
+    "react-spring": "^9.7.3"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.2.1",

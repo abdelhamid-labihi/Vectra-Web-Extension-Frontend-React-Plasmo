@@ -20,7 +20,7 @@ const handler: PlasmoMessaging.MessageHandler<
     const { job_title, company, job_description, username } = req.body
 
     const response = await fetch(
-      `https://vectra-backend-spring.issaminu.com/resume/missed_skills?username=${username}`,
+      `https://vectra-backend-spring.issaminu.com/resume/missed_skills?username=Issam`,
       {
         method: "POST",
         headers: {
@@ -40,6 +40,9 @@ const handler: PlasmoMessaging.MessageHandler<
     }
   } catch (error) {
     console.log("Error sending job information to background script", error)
+    res.send({
+      message: error
+    })
   }
   res.send({
     message: "Error, something unexpected happened. Please try again."
