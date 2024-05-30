@@ -1,19 +1,19 @@
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
-export type RequestBody = {
+export type SuggestSkillsRequestBody = {
   job_title: string
   company: string
   job_description: string
   username: string
 }
 
-export type ResponseBody = {
+export type SuggestSkillsResponseBody = {
   message: string
 }
 
 const handler: PlasmoMessaging.MessageHandler<
-  RequestBody,
-  ResponseBody
+  SuggestSkillsRequestBody,
+  SuggestSkillsResponseBody
 > = async (req, res) => {
   try {
     console.log("Sending job information to background script")
