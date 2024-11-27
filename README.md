@@ -1,14 +1,15 @@
 
 # Vectra Resume Matcher
 
-![Vectra logo](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/icon.png)
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/icon.png" alt="Vectra logo" style="max-width: 400px;"/>
 
 > Vectra is a browser extension that leverages machine learning to analyze resumes and job descriptions, providing tailored suggestions to enhance resumes and improve job seekers' chances of landing interviews.
 
 ## Problem Context
-![Problem Context](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/problem-context.png)
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/problem-context.png" alt="Problem Context" style="max-width: 400px;"/>
 The job market is increasingly competitive. For job seekers, making a strong impression is crucial, and their resume is their first impression.
 But crafting a resume that truly highlights their skills and experience, tailored to each job description, can be a daunting task. Imagine this scenario:
+
 - The job seeker: They spend hours on online job boards, scrolling through countless postings. They find a position that aligns with their interests, but then face a wall – the application process. They feel overwhelmed by the need to re-write their resume for every application, ensuring they showcase the right skills for each specific role.
 - The employer: They receive hundreds of applications for each position. They spend countless hours sifting through generic resumes, struggling to find the candidates who truly match their needs. This process is time-consuming and inefficient, often leading to missed opportunities.
 
@@ -16,16 +17,20 @@ This is the problem we're addressing with Vectra. It's a challenge that impacts 
 
 ## Diagrams
 Use case diagram
-![Use case diagram](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/use-case-diagram.png)
+
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/use-case-diagram.png" alt="Use case diagram" style="max-width: 400px;"/>
 
 Sequence diagram
-![Sequence diagram](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/sequence.png)
+
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/sequence-diagram.png" alt="Sequence diagram" style="max-width: 400px;"/>
 
 Project architecture
-![Sequence diagram](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/architecture.png)
+
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/architecture.png" alt="Project architecture" style="max-width: 400px;"/>
 
 ## System Prompt
-![System Promt](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/system-prompt.png)
+
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/system-prompt.png" alt="System Prompt" style="max-width: 400px;"/>
 
  The system prompt aims to rewrite the experiences section to make it more impactful, clear, and aligned with professional standards. The goal is to highlight the candidate's achievements, skills, and responsibilities effectively, making the CV more appealing to potential employers.
 
@@ -51,18 +56,22 @@ The instructions emphasize understanding the context by retaining core details l
 
 ## Interfaces
 Authentication interface
-![Authentication interface](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/Authentication-interface.png)
 
-![Authentication interface](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/Authentication-interface2.png)
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/Authentication-interface .png" alt="Authentication interface" style="max-width: 400px;"/>
+
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/Authentication-interface2.png" alt="Authentication interface" style="max-width: 400px;"/>
 
 Upload Resume
-![Upload Resume](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/Upload-CV.png)
+
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/Upload-CV.png" alt="Upload Resume" style="max-width: 400px;"/>
 
 Fill Resume
-![Fill Resume](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/Fill-resume.png)
+
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/Fill-resume.png" alt="Fill Resume" style="max-width: 400px;"/>
 
 Job scoring
-![Job scoring](https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/job-score.png)
+
+<img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/job-score.png" alt="Job scoring" style="max-width: 400px;"/>
 
 > Run the project for full experience
 The extension hasn't yet published on the chrome store. But you can follow this quick guide and install it manually.
@@ -116,14 +125,14 @@ Feel free to reach out if you encounter any issues during the setup process.
       <a href="https://github.com/Issaminu">
         <img src="https://github.com/Issaminu.png" width="100px;" alt="Contributor 1"/>
         <br />
-        <sub><b>Contributor 1</b></sub>
+        <sub><b>Issaminu</b></sub>
       </a>
     </td>
     <td align="center">
       <a href="https://github.com/YassinMK">
         <img src="https://github.com/YassinMK.png" width="100px;" alt="Contributor 2"/>
         <br />
-        <sub><b>Contributor 2</b></sub>
+        <sub><b>YassinMK</b></sub>
       </a>
     </td>
   </tr>
