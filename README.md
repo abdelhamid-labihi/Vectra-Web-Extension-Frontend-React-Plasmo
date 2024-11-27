@@ -121,16 +121,23 @@ Feel free to reach out if you encounter any issues during the setup process.
 
 <table>
   <tr>
+   <td align="center">
+      <a href="https://github.com/abdelhamid-labihi">
+        <img src="https://github.com/abdelhamid-labihi.png" width="100px;" alt="abdelhamid-labihi"/>
+        <br />
+        <sub><b>abdelhamid-labihi</b></sub>
+      </a>
+    </td>
     <td align="center">
       <a href="https://github.com/Issaminu">
-        <img src="https://github.com/Issaminu.png" width="100px;" alt="Contributor 1"/>
+        <img src="https://github.com/Issaminu.png" width="100px;" alt="Issaminu"/>
         <br />
         <sub><b>Issaminu</b></sub>
       </a>
     </td>
     <td align="center">
       <a href="https://github.com/YassinMK">
-        <img src="https://github.com/YassinMK.png" width="100px;" alt="Contributor 2"/>
+        <img src="https://github.com/YassinMK.png" width="100px;" alt="YassinMK"/>
         <br />
         <sub><b>YassinMK</b></sub>
       </a>
