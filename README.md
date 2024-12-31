@@ -5,6 +5,8 @@
 
 > Vectra is a browser extension that leverages machine learning to analyze resumes and job descriptions, providing tailored suggestions to enhance resumes and improve job seekers' chances of landing interviews.
 
+Full Project [here](https://github.com/Vectra-Project)
+
 ## Problem Context
 <img src="https://github.com/abdelhamid-labihi/Vectra-Web-Extension-Frontend-React-Plasmo/blob/main/assets/problem-context.png" alt="Problem Context" style="max-width: 400px;"/>
 The job market is increasingly competitive. For job seekers, making a strong impression is crucial, and their resume is their first impression.
